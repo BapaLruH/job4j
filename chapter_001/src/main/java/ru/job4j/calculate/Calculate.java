@@ -8,7 +8,6 @@ package ru.job4j.calculate;
  * @since 06.11.2018
  */
 public class Calculate {
-	
 	/**
 	 * Method main
 	 * Prints "Hello world" in console.
@@ -16,5 +15,13 @@ public class Calculate {
 	 */
 	public static void main(String[] args) {	
 		System.out.println("Hello world");		
+	}
+	/**
+	 * Method echo.
+	 * @param name Evgeny Shevchenko.
+	 * @return Echo plus your name.
+	 */
+	public String echo(String name) {
+		return "Echo, echo, echo : " + name;
 	}
 }
