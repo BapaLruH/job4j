@@ -19,4 +19,19 @@ public class Max {
     public int max(int first, int second) {
         return first > second ? first : second;
     }
+
+    /**
+     * Method max.
+     * Calculates max number from first, second and third values.
+     * @param first type int.
+     * @param second type int.
+     * @param third type int.
+     * @return result type int.
+     */
+    public int max(int first, int second, int third) {
+        int firstTmp = max(first, second);
+        int secTmp = max(second, third);
+        return firstTmp > secTmp ? firstTmp : secTmp;
+    }
+
 }
