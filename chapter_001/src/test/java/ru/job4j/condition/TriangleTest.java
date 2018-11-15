@@ -24,10 +24,8 @@ public class TriangleTest {
         Point a = new Point(2, 4);
         Point b = new Point(5, 7);
         Point c = new Point(8, 2);
-
         Triangle triangle = new Triangle(a, b, c);
         double result = triangle.area();
-
         assertThat(result, closeTo(12, 0.1));
     }
 

@@ -90,7 +90,6 @@ public class Logic {
                 }
             }
         }
-
         if (!result) {
             for (int i = 0; i < table[0].length; i++) {
                 if (table[0][i] == 1) {

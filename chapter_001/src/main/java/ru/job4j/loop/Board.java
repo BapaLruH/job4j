@@ -29,7 +29,6 @@ public class Board {
             }
             sb.append(ln);
         }
-
         return sb.toString();
     }
 }

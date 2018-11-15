@@ -27,7 +27,6 @@ public class ArrayChar {
         if (prefixChar.length > data.length) {
             return false;
         }
-
         for (int i = 0; i < prefixChar.length; i++) {
             if (prefixChar[i] != data[i]) {
                 result = false;
