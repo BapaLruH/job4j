@@ -51,4 +51,49 @@ public class TrackerTest {
         tracker.add(item2);
         assertThat(tracker.findByName("First test name"), is(expect));
     }
+
+    @Test
+    public void whenUserAddItemThenTrackerHasNewItemWithSameName() {
+        Tracker tracker = new Tracker();
+        Input input = new StubInput(new String[]{"0", "test name", "description", "6"});
+        new StartUI(input, tracker).init();
+        assertThat(tracker.findAll()[0].getName(), is("test name"));
+    }
+
+    @Test
+    public void whenUpdateThenTrackerHasUpdateValue() {
+        Tracker tracker = new Tracker();
+        Item item = tracker.add(new Item("Test name", "description"));
+        Input input = new StubInput(new String[]{"2", item.getId(), "new name", "updated", "6"});
+        new StartUI(input, tracker).init();
+        assertThat(tracker.findById(item.getId()).getName(), is("new name"));
+    }
+
+    @Test
+    public void whenDeleteThenTrackerNotHasValue() {
+        Tracker tracker = new Tracker();
+        Item item = tracker.add(new Item("Test name", "description"));
+        Input input = new StubInput(new String[]{"3", item.getId(), "6"});
+        new StartUI(input, tracker).init();
+        assertNull(tracker.findById(item.getId()));
+    }
+
+    @Test
+    public void whenFindItemByIdThenReturnValue() {
+        Tracker tracker = new Tracker();
+        Item item = tracker.add(new Item("Test name", "description"));
+        Input input = new StubInput(new String[]{"4", item.getId(), "6"});
+        new StartUI(input, tracker).init();
+        assertThat(tracker.findById(item.getId()).getName(), is("Test name"));
+    }
+
+    @Test
+    public void whenFindItemByNameThenReturnValue() {
+        Tracker tracker = new Tracker();
+        Item first = tracker.add(new Item("Test name", "description"));
+        Item second = tracker.add(new Item("Test name", "description_1"));
+        Input input = new StubInput(new String[]{"5", "Test name", "6"});
+        new StartUI(input, tracker).init();
+        assertThat(tracker.findByName("Test name"), is(new Item[]{first, second}));
+    }
 }

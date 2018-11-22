@@ -16,10 +16,10 @@ public class StartUI {
     private static final String FIND_ITEM_BY_NAME = "5";
     private static final String EXIT = "6";
 
-    private final ConsoleInput input;
+    private final Input input;
     private final Tracker tracker;
 
-    public StartUI(ConsoleInput input, Tracker tracker) {
+    public StartUI(Input input, Tracker tracker) {
         this.input = input;
         this.tracker = tracker;
     }

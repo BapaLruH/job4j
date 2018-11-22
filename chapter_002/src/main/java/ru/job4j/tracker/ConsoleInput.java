@@ -11,9 +11,10 @@ import java.io.InputStreamReader;
  * @version 001
  * @since 22.11.2018
  */
-public class ConsoleInput {
+public class ConsoleInput implements Input {
 
     private static final BufferedReader READER = new BufferedReader(new InputStreamReader(System.in));
+
     /**
      * Method ask.
      * Asks a question in the console and reads user input.
@@ -21,6 +22,7 @@ public class ConsoleInput {
      * @param question type String.
      * @return result type String.
      */
+    @Override
     public String ask(String question) {
         String result = "";
         System.out.println(question);
