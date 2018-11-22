@@ -44,14 +44,18 @@ public class Tracker {
      *
      * @param id   type String.
      * @param item type Item.
+     * @return changes type boolean.
      */
-    public void replace(String id, Item item) {
+    public boolean replace(String id, Item item) {
+        boolean changes = false;
         for (int i = 0; i < this.position; i++) {
             if (items[i].getId().equals(id)) {
                 item.setId(id);
                 items[i] = item;
+                changes = true;
             }
         }
+        return changes;
     }
 
     /**
@@ -59,15 +63,19 @@ public class Tracker {
      * Deleted an array item with an id.
      *
      * @param id type String.
+     * @return changes type boolean.
      */
-    public void delete(String id) {
+    public boolean delete(String id) {
+        boolean changes = false;
         for (int i = 0; i < this.position; i++) {
             if (items[i].getId().equals(id)) {
                 System.arraycopy(items, i + 1, items, i, this.items.length - i - 1);
                 this.position--;
+                changes = true;
                 break;
             }
         }
+        return changes;
     }
 
     /**

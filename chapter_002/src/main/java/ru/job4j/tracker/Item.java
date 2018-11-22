@@ -17,6 +17,7 @@ public class Item {
     public Item(String name, String description) {
         this.name = name;
         this.description = description;
+        this.created = System.currentTimeMillis();
     }
 
     public Item(String name, String description, long created) {
@@ -67,12 +68,12 @@ public class Item {
 
     @Override
     public String toString() {
-        return "Item{" +
-                "id='" + id + '\'' +
-                ", name='" + name + '\'' +
-                ", description='" + description + '\'' +
-                ", created=" + created +
-                ", comments='" + comments + '\'' +
-                '}';
+        return "Item{"
+                + "id='" + id + '\''
+                + ", name='" + name + '\''
+                + ", description='" + description + '\''
+                + ", created=" + created
+                + ", comments='" + comments + '\''
+                + '}';
     }
 }
