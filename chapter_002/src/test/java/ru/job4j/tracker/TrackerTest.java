@@ -55,7 +55,7 @@ public class TrackerTest {
     @Test
     public void whenUserAddItemThenTrackerHasNewItemWithSameName() {
         Tracker tracker = new Tracker();
-        Input input = new StubInput(new String[]{"0", "test name", "description", "6"});
+        Input input = new StubInput(new String[]{"0", "test name", "description", "y"});
         new StartUI(input, tracker).init();
         assertThat(tracker.findAll()[0].getName(), is("test name"));
     }
@@ -64,7 +64,7 @@ public class TrackerTest {
     public void whenUpdateThenTrackerHasUpdateValue() {
         Tracker tracker = new Tracker();
         Item item = tracker.add(new Item("Test name", "description"));
-        Input input = new StubInput(new String[]{"2", item.getId(), "new name", "updated", "6"});
+        Input input = new StubInput(new String[]{"2", item.getId(), "new name", "updated", "y"});
         new StartUI(input, tracker).init();
         assertThat(tracker.findById(item.getId()).getName(), is("new name"));
     }
@@ -73,7 +73,7 @@ public class TrackerTest {
     public void whenDeleteThenTrackerNotHasValue() {
         Tracker tracker = new Tracker();
         Item item = tracker.add(new Item("Test name", "description"));
-        Input input = new StubInput(new String[]{"3", item.getId(), "6"});
+        Input input = new StubInput(new String[]{"3", item.getId(), "y"});
         new StartUI(input, tracker).init();
         assertNull(tracker.findById(item.getId()));
     }
@@ -82,7 +82,7 @@ public class TrackerTest {
     public void whenFindItemByIdThenReturnValue() {
         Tracker tracker = new Tracker();
         Item item = tracker.add(new Item("Test name", "description"));
-        Input input = new StubInput(new String[]{"4", item.getId(), "6"});
+        Input input = new StubInput(new String[]{"4", item.getId(), "y"});
         new StartUI(input, tracker).init();
         assertThat(tracker.findById(item.getId()).getName(), is("Test name"));
     }
@@ -92,7 +92,7 @@ public class TrackerTest {
         Tracker tracker = new Tracker();
         Item first = tracker.add(new Item("Test name", "description"));
         Item second = tracker.add(new Item("Test name", "description_1"));
-        Input input = new StubInput(new String[]{"5", "Test name", "6"});
+        Input input = new StubInput(new String[]{"5", "Test name", "y"});
         new StartUI(input, tracker).init();
         assertThat(tracker.findByName("Test name"), is(new Item[]{first, second}));
     }
