@@ -1,8 +1,5 @@
 package ru.job4j.tracker;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * Сlass StartUI.
  *
@@ -25,23 +22,19 @@ public class StartUI {
      */
     public void init() {
         MenuTracker menu = new MenuTracker(this.input, this.tracker);
-        List<Integer> range = new ArrayList<>();
         menu.fillActions();
+        int[] range = new int[menu.getActionsLentgh()];
         for (int i = 0; i < menu.getActionsLentgh(); i++) {
-            range.add(i);
+            range[i] = i;
         }
         do {
             menu.show();
-            try {
-                menu.select(Integer.valueOf(this.input.ask("Select:")));
-            } catch (NumberFormatException ignored) {
-                System.out.println(String.format("Некорректный ввод. Ожидается число от 0 до %s", range.size() - 1));
-            }
+            menu.select(this.input.ask("Select:", range));
         } while (!"y".equals(this.input.ask("Exit? (y): ")));
     }
 
     public static void main(String[] args) {
-        StartUI startUI = new StartUI(new ConsoleInput(), new Tracker());
+        StartUI startUI = new StartUI(new ValidateInput(), new Tracker());
         startUI.init();
     }
 }

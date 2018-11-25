@@ -33,4 +33,29 @@ public class ConsoleInput implements Input {
         }
         return result;
     }
+
+    /**
+     * Method ask.
+     * Asks a question in the console and validate user input.
+     *
+     * @param question type String.
+     * @param range    type int[].
+     * @return result type String.
+     */
+    @Override
+    public int ask(String question, int[] range) {
+        int key = Integer.valueOf(this.ask(question));
+        boolean exist = false;
+        for (int value : range) {
+            if (value == key) {
+                exist = true;
+                break;
+            }
+        }
+        if (exist) {
+            return key;
+        } else {
+            throw new MenuOutException("Out of menu range");
+        }
+    }
 }
