@@ -43,7 +43,7 @@ public class StartUITest {
                 new StringJoiner(System.lineSeparator())
                         .add(menu)
                         .add("------------ Добавление новой заявки --------------")
-                        .add(String.format("------------ Новая заявка с getId : %s-----------", tracker.findAll()[0].getId()))
+                        .add(String.format("------------ Новая заявка с getId : %s-----------", tracker.findAll().get(0).getId()))
                         .add("")
                         .toString()
         ));

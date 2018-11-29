@@ -1,7 +1,7 @@
 package ru.job4j.tracker;
 
-import java.util.Arrays;
-import java.util.Random;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Сlass Tracker.
@@ -11,8 +11,7 @@ import java.util.Random;
  * @since 21.11.2018
  */
 public class Tracker {
-    private final Item[] items = new Item[100];
-    private int position = 0;
+    private final List<Item> items = new ArrayList<>();
     private static Random rm = new Random();
 
     /**
@@ -24,7 +23,7 @@ public class Tracker {
      */
     public Item add(Item item) {
         item.setId(this.generateId());
-        this.items[this.position++] = item;
+        this.items.add(item);
         return item;
     }
 
@@ -47,15 +46,12 @@ public class Tracker {
      * @return changes type boolean.
      */
     public boolean replace(String id, Item item) {
-        boolean changes = false;
-        for (int i = 0; i < this.position; i++) {
-            if (items[i].getId().equals(id)) {
-                item.setId(id);
-                items[i] = item;
-                changes = true;
-            }
+        Item itemForReplace = this.items.stream().filter(v -> v.getId().equals(id)).findFirst().orElse(null);
+        if (itemForReplace != null) {
+            item.setId(id);
+            this.items.set(this.items.indexOf(itemForReplace), item);
         }
-        return changes;
+        return itemForReplace != null;
     }
 
     /**
@@ -66,26 +62,21 @@ public class Tracker {
      * @return changes type boolean.
      */
     public boolean delete(String id) {
-        boolean changes = false;
-        for (int i = 0; i < this.position; i++) {
-            if (items[i].getId().equals(id)) {
-                System.arraycopy(items, i + 1, items, i, this.items.length - i - 1);
-                this.position--;
-                changes = true;
-                break;
-            }
-        }
-        return changes;
+        Item remove = this.items.stream()
+                .filter(v -> v.getId().equals(id))
+                .findFirst().orElse(null);
+        this.items.remove(remove);
+        return remove != null;
     }
 
     /**
      * Method findAll.
      * Returns all item of the array.
      *
-     * @return items type Item[].
+     * @return items type List<Item>.
      */
-    public Item[] findAll() {
-        return Arrays.copyOf(items, position);
+    public List<Item> findAll() {
+        return this.items;
     }
 
     /**
@@ -93,17 +84,12 @@ public class Tracker {
      * Returns all items of the array with the name(key).
      *
      * @param key type String.
-     * @return items type Item[].
+     * @return items type List<Item>.
      */
-    public Item[] findByName(String key) {
-        Item[] result = new Item[this.position];
-        int index = 0;
-        for (int i = 0; i < this.position; i++) {
-            if (items[i] != null && items[i].getName().equals(key)) {
-                result[index++] = items[i];
-            }
-        }
-        return Arrays.copyOf(result, index);
+    public List<Item> findByName(String key) {
+        return this.items.stream()
+                .filter(v -> v.getName().equals(key))
+                .collect(Collectors.toList());
     }
 
     /**
@@ -114,13 +100,9 @@ public class Tracker {
      * @return item type Item.
      */
     public Item findById(String id) {
-        Item result = null;
-        for (Item item : items) {
-            if (item != null && item.getId().equals(id)) {
-                result = item;
-                break;
-            }
-        }
-        return result;
+        return this.items.stream()
+                .filter(v -> v.getId().equals(id))
+                .findFirst()
+                .orElse(null);
     }
 }

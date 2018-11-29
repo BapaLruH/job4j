@@ -2,6 +2,9 @@ package ru.job4j.tracker;
 
 import org.junit.Test;
 
+import java.util.Arrays;
+import java.util.List;
+
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThat;
@@ -13,7 +16,7 @@ public class TrackerTest {
         Tracker tracker = new Tracker();
         Item item = new Item("test", "new description", 111L);
         tracker.add(item);
-        assertThat(tracker.findAll()[0], is(item));
+        assertThat(tracker.findAll().get(0), is(item));
     }
 
     @Test
@@ -45,7 +48,7 @@ public class TrackerTest {
         Item item = new Item("First test name", "first description", 123L);
         Item item1 = new Item("First test name", "first description", 123L);
         Item item2 = new Item("First test name", "first description", 123L);
-        Item[] expect = {item, item1, item2};
+        List<Item> expect = Arrays.asList(item, item1, item2);
         tracker.add(item);
         tracker.add(item1);
         tracker.add(item2);
@@ -57,7 +60,7 @@ public class TrackerTest {
         Tracker tracker = new Tracker();
         Input input = new StubInput(new String[]{"0", "test name", "description", "y"});
         new StartUI(input, tracker).init();
-        assertThat(tracker.findAll()[0].getName(), is("test name"));
+        assertThat(tracker.findAll().get(0).getName(), is("test name"));
     }
 
     @Test
@@ -94,6 +97,6 @@ public class TrackerTest {
         Item second = tracker.add(new Item("Test name", "description_1"));
         Input input = new StubInput(new String[]{"5", "Test name", "y"});
         new StartUI(input, tracker).init();
-        assertThat(tracker.findByName("Test name"), is(new Item[]{first, second}));
+        assertThat(tracker.findByName("Test name"), is(Arrays.asList(first, second)));
     }
 }

@@ -8,7 +8,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 
 import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertThat;
 
 public class ValidateInputTest {
     private final ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -35,7 +35,7 @@ public class ValidateInputTest {
                 is(
                         String.format("Please enter validate data again!%n")
                 )
-                );
+        );
     }
 
     @Test
@@ -49,6 +49,6 @@ public class ValidateInputTest {
                 is(
                         String.format("Please select key from menu! 0 - %s%n", 0)
                 )
-                );
+        );
     }
 }

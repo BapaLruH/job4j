@@ -128,8 +128,8 @@ class ShowItems extends BaseAction {
 
     @Override
     public void execute(Input input, Tracker tracker) {
-        Item[] items = tracker.findAll();
-        if (items.length == 0) {
+        List<Item> items = tracker.findAll();
+        if (items.size() == 0) {
             System.out.println("------------ Данные отсутствуют ------------");
         } else {
             for (Item item : items) {
@@ -174,8 +174,8 @@ class FindItemsByName extends BaseAction {
     public void execute(Input input, Tracker tracker) {
         System.out.println("------------ Поиск заявки по имени --------------");
         String name = input.ask("Введите имя заявки :");
-        Item[] result = tracker.findByName(name);
-        if (result.length == 0) {
+        List<Item> result = tracker.findByName(name);
+        if (result.size() == 0) {
             System.out.println("------------ Заявки с именем : " + name + " отсутствуют ------------");
         } else {
             System.out.println("------------ Найденные заявки с именем : " + name + " -----------");
