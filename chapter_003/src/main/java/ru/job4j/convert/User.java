@@ -10,14 +10,20 @@ import java.util.Random;
  * @version 001
  * @since 29.11.2018
  */
-public class User {
+public class User implements Comparable<User> {
     private int id;
     private String name;
+    private int age;
     private static final Random RANDOM = new Random();
 
     public User(String name) {
         this.id = RANDOM.nextInt();
         this.name = name;
+    }
+
+    public User(String name, int age) {
+        this(name);
+        this.age = age;
     }
 
     public int getId() {
@@ -26,6 +32,10 @@ public class User {
 
     public String getName() {
         return name;
+    }
+
+    public int getAge() {
+        return age;
     }
 
     @Override
@@ -44,5 +54,10 @@ public class User {
     @Override
     public int hashCode() {
         return Objects.hash(id, name);
+    }
+
+    @Override
+    public int compareTo(User o) {
+        return this.age - o.getAge();
     }
 }
