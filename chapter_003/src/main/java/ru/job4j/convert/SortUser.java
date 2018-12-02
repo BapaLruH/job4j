@@ -1,8 +1,6 @@
 package ru.job4j.convert;
 
-import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.*;
 
 /**
  * Сlass SortUser.
@@ -21,5 +19,29 @@ public class SortUser {
      */
     public Set<User> sort(List<User> users) {
         return new TreeSet<>(users);
+    }
+
+    /**
+     * Method sortNameLength.
+     * Sort by name length.
+     *
+     * @param users type List<User>.
+     * @return result type List<User>.
+     */
+    public List<User> sortNameLength(List<User> users) {
+        users.sort(Comparator.comparingInt(o -> o.getName().length()));
+        return users;
+    }
+
+    /**
+     * Method sortByAllFields.
+     * Sort by name and age.
+     *
+     * @param users type List<User>.
+     * @return result type List<User>.
+     */
+    public List<User> sortByAllFields(List<User> users) {
+        users.sort(Comparator.comparing(User::getName).thenComparingInt(User::getAge));
+        return users;
     }
 }
