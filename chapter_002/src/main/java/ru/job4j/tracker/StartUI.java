@@ -28,7 +28,7 @@ public class StartUI {
             range[i] = i;
         }
         do {
-            menu.show();
+            menu.show(System.out::println);
             menu.select(this.input.ask("Select:", range));
         } while (!"y".equals(this.input.ask("Exit? (y): ")));
     }

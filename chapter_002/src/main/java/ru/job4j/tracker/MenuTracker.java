@@ -2,6 +2,7 @@ package ru.job4j.tracker;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 
 /**
  * Сlass MenuTracker.
@@ -41,11 +42,11 @@ public class MenuTracker {
      * Method show.
      * Shows the menu in the console.
      */
-    public void show() {
+    public void show(Consumer<String> consumer) {
         for (int i = 0; i < actions.size(); i++) {
             UserAction action = actions.get(i);
             if (action != null) {
-                System.out.println(action.info());
+                consumer.accept(action.info());
             }
         }
     }
