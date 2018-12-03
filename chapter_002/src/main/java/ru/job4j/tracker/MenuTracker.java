@@ -21,7 +21,7 @@ public class MenuTracker {
         this.tracker = tracker;
     }
 
-    public int getActionsLentgh() {
+    public int getActionsLength() {
         return this.actions.size();
     }
 
@@ -67,7 +67,7 @@ public class MenuTracker {
             String name = input.ask("Введите новое имя заявки :");
             String desc = input.ask("Введите новое описание заявки :");
             Item item = new Item(name, desc);
-            if (tracker.replace(id, item)) {
+            if (tracker.replace(id, item, String::equals)) {
                 System.out.println("------------ Заявка с Id : " + id + " изменена -----------");
             } else {
                 System.out.println("------------ Заявка с Id : " + id + " отсутствует ------------");
@@ -88,7 +88,7 @@ public class MenuTracker {
         public void execute(Input input, Tracker tracker) {
             System.out.println("------------ Удаление заявки --------------");
             String id = input.ask("Введите Id заявки :");
-            if (tracker.delete(id)) {
+            if (tracker.delete(id, String::equals)) {
                 System.out.println("------------ Заявка с Id : " + id + " удалена -----------");
             } else {
                 System.out.println("------------ Заявка с Id : " + id + " отсутствует ------------");
@@ -153,7 +153,7 @@ class FindItemById extends BaseAction {
     public void execute(Input input, Tracker tracker) {
         System.out.println("------------ Поиск заявки по Id --------------");
         String id = input.ask("Введите Id заявки :");
-        Item result = tracker.findById(id);
+        Item result = tracker.findById(id, String::equals);
         if (result != null) {
             System.out.println(result);
         } else {
@@ -175,7 +175,7 @@ class FindItemsByName extends BaseAction {
     public void execute(Input input, Tracker tracker) {
         System.out.println("------------ Поиск заявки по имени --------------");
         String name = input.ask("Введите имя заявки :");
-        List<Item> result = tracker.findByName(name);
+        List<Item> result = tracker.findByName(name, String::equals);
         if (result.size() == 0) {
             System.out.println("------------ Заявки с именем : " + name + " отсутствуют ------------");
         } else {

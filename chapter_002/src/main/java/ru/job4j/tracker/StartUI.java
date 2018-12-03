@@ -23,8 +23,8 @@ public class StartUI {
     public void init() {
         MenuTracker menu = new MenuTracker(this.input, this.tracker);
         menu.fillActions();
-        int[] range = new int[menu.getActionsLentgh()];
-        for (int i = 0; i < menu.getActionsLentgh(); i++) {
+        int[] range = new int[menu.getActionsLength()];
+        for (int i = 0; i < menu.getActionsLength(); i++) {
             range[i] = i;
         }
         do {

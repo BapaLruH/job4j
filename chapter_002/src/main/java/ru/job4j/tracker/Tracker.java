@@ -1,6 +1,9 @@
 package ru.job4j.tracker;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+import java.util.function.BiPredicate;
 import java.util.stream.Collectors;
 
 /**
@@ -45,8 +48,8 @@ public class Tracker {
      * @param item type Item.
      * @return changes type boolean.
      */
-    public boolean replace(String id, Item item) {
-        Item itemForReplace = this.items.stream().filter(v -> v.getId().equals(id)).findFirst().orElse(null);
+    public boolean replace(String id, Item item, BiPredicate<String, String> isEquals) {
+        Item itemForReplace = this.items.stream().filter(v -> isEquals.test(v.getId(), id)).findFirst().orElse(null);
         if (itemForReplace != null) {
             item.setId(id);
             this.items.set(this.items.indexOf(itemForReplace), item);
@@ -61,9 +64,9 @@ public class Tracker {
      * @param id type String.
      * @return changes type boolean.
      */
-    public boolean delete(String id) {
+    public boolean delete(String id, BiPredicate<String, String> isEquals) {
         Item remove = this.items.stream()
-                .filter(v -> v.getId().equals(id))
+                .filter(v -> isEquals.test(v.getId(), id))
                 .findFirst().orElse(null);
         this.items.remove(remove);
         return remove != null;
@@ -86,9 +89,9 @@ public class Tracker {
      * @param key type String.
      * @return items type List<Item>.
      */
-    public List<Item> findByName(String key) {
+    public List<Item> findByName(String key, BiPredicate<String, String> isEquals) {
         return this.items.stream()
-                .filter(v -> v.getName().equals(key))
+                .filter(v -> isEquals.test(v.getName(), key))
                 .collect(Collectors.toList());
     }
 
@@ -99,9 +102,9 @@ public class Tracker {
      * @param id type String.
      * @return item type Item.
      */
-    public Item findById(String id) {
+    public Item findById(String id, BiPredicate<String, String> isEquals) {
         return this.items.stream()
-                .filter(v -> v.getId().equals(id))
+                .filter(v -> isEquals.test(v.getId(), id))
                 .findFirst()
                 .orElse(null);
     }
