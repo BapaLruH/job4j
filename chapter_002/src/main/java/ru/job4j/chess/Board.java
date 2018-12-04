@@ -2,6 +2,8 @@ package ru.job4j.chess;
 
 import ru.job4j.chess.figures.Figure;
 
+import java.util.stream.IntStream;
+
 /**
  * Сlass Board.
  *
@@ -24,11 +26,12 @@ public class Board {
             throw new FigureNotFoundException("There is no figure in the cell!");
         }
         Cell[] steps = figures[index].way(source, dest);
-        for (Cell cell : steps) {
-            index = this.findBy(cell);
-            if (index != -1) {
-                throw new OccupiedWayException("Occupied way!");
-            }
+        index = IntStream.range(0, steps.length)
+                .filter(i -> this.findBy(steps[i]) != -1)
+                .findFirst()
+                .orElse(-1);
+        if (index != -1) {
+            throw new OccupiedWayException("Occupied way!");
         }
         if (steps.length > 0) {
             this.figures[index] = this.figures[index].copy(dest);
@@ -38,15 +41,11 @@ public class Board {
     }
 
     private int findBy(Cell cell) {
-        int result = -1;
-        for (int i = 0; i < this.figures.length; i++) {
-            if (figures[i] != null
-                    && figures[i].position.x == cell.x
-                    && figures[i].position.y == cell.y) {
-                result = i;
-                break;
-            }
-        }
-        return result;
+        return IntStream.range(0, this.figures.length)
+                .filter(i -> figures[i] != null
+                        && figures[i].position.x == cell.x
+                        && figures[i].position.y == cell.y)
+                .findFirst()
+                .orElse(-1);
     }
 }

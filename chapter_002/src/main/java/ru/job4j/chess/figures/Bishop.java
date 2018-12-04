@@ -3,6 +3,9 @@ package ru.job4j.chess.figures;
 import ru.job4j.chess.Cell;
 import ru.job4j.chess.ImpossibleMoveException;
 
+import java.util.function.BiPredicate;
+import java.util.stream.IntStream;
+
 /**
  * Сlass Bishop.
  *
@@ -11,6 +14,9 @@ import ru.job4j.chess.ImpossibleMoveException;
  * @since 27.11.2018
  */
 public class Bishop extends Figure {
+
+    private final BiPredicate<Cell, Cell> isDiagonal =
+            (first, second) -> Math.abs(second.x - first.x) == Math.abs(second.y - first.y);
 
     public Bishop(final Cell position) {
         super(position);
@@ -26,36 +32,18 @@ public class Bishop extends Figure {
      */
     @Override
     public Cell[] way(Cell source, Cell dest) {
-        if (!isDiagonal(source, dest)) {
+        if (!isDiagonal.test(source, dest)) {
             throw new ImpossibleMoveException("Impossible move");
         }
         Cell[] steps = new Cell[Math.abs(dest.x - source.x)];
         int deltaX = Integer.compare(dest.x, source.x);
         int deltaY = Integer.compare(dest.y, source.y);
-        int stepX = 0;
-        int stepY = 0;
-        for (int i = 1; i <= steps.length; i++) {
-            stepX = source.x + (deltaX * i);
-            stepY = source.y + (deltaY * i);
-            steps[i - 1] = findCell(stepX, stepY);
-        }
+        IntStream.range(1, steps.length + 1).forEach(index -> {
+            int stepX = source.x + (deltaX * index);
+            int stepY = source.y + (deltaY * index);
+            steps[index - 1] = findCell(stepX, stepY);
+        });
         return steps;
-    }
-
-    /**
-     * Method isDiagonal.
-     * Checks if the way is diagonal.
-     *
-     * @param source type Cell.
-     * @param dest   type Cell.
-     * @return result type boolean.
-     */
-    private boolean isDiagonal(Cell source, Cell dest) {
-        boolean result = false;
-        if (Math.abs((dest.x - source.x)) == Math.abs((dest.y - source.y))) {
-            result = true;
-        }
-        return result;
     }
 
     /**

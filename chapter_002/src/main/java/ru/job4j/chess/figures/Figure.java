@@ -3,6 +3,8 @@ package ru.job4j.chess.figures;
 import ru.job4j.chess.Cell;
 import ru.job4j.chess.ImpossibleMoveException;
 
+import java.util.Arrays;
+
 /**
  * Сlass Figure.
  *
@@ -45,13 +47,9 @@ public abstract class Figure {
      * @return result type Cell.
      */
     protected Cell findCell(int x, int y) {
-        Cell result = Cell.A1;
-        for (Cell cell : Cell.values()) {
-            if (cell.x == x && cell.y == y) {
-                result = cell;
-                break;
-            }
-        }
-        return result;
+        return Arrays.stream(Cell.values())
+                .filter(cell -> cell.x == x && cell.y == y)
+                .findFirst()
+                .orElse(Cell.A1);
     }
 }
