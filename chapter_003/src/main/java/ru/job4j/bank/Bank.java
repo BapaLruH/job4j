@@ -72,11 +72,11 @@ public class Bank {
      */
     public List<Account> getUserAccounts(String passport) {
         User user = getUserByPassport(passport);
-        List<Account> accounts = new ArrayList<>();
-        if (user != null && this.userAccounts.containsKey(user)) {
-            accounts = this.userAccounts.get(user);
-        }
-        return accounts;
+        return this.userAccounts.entrySet().stream()
+                .filter(entry -> entry.getKey().equals(user))
+                .map(Map.Entry::getValue)
+                .findFirst()
+                .orElse(new ArrayList<>());
     }
 
     /**
