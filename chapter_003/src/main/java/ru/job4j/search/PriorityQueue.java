@@ -19,7 +19,7 @@ public class PriorityQueue {
      * @param task type Task.
      */
     public void put(Task task) {
-        int count = (int) tasks.stream().filter(element -> element.getPriority() < task.getPriority()).count();
+        var count = (int) tasks.stream().filter(element -> element.getPriority() < task.getPriority()).count();
         tasks.add(count, task);
     }
 
