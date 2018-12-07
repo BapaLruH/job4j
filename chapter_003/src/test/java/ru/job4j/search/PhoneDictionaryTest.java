@@ -27,9 +27,7 @@ public class PhoneDictionaryTest {
         phones.addNewPersonInList(second);
         phones.addNewPersonInList(third);
         List<Person> persons = phones.find("enko");
-        List<Person> expect = new ArrayList<>();
-        expect.add(first);
-        expect.add(second);
+        List<Person> expect = List.of(first, second);
         assertThat(persons, is(expect));
     }
 

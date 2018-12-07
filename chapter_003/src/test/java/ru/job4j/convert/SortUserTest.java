@@ -16,7 +16,7 @@ public class SortUserTest {
         User ivan = new User("Ivan", 29);
         User serj = new User("Serj", 27);
         User oleg = new User("Oleg", 32);
-        List<User> input = Arrays.asList(
+        List<User> input = List.of(
                 ivan, serj, oleg
         );
         Set<User> sorted = new SortUser().sort(input);
@@ -32,7 +32,7 @@ public class SortUserTest {
         List<User> input = Arrays.asList(
                 serj, ivan, sergej, fedor
         );
-        List<User> expect = Arrays.asList(ivan, fedor, serj, sergej);
+        List<User> expect = List.of(ivan, fedor, serj, sergej);
         List<User> result = new SortUser().sortNameLength(input);
         assertThat(result, is(expect));
     }
@@ -46,7 +46,7 @@ public class SortUserTest {
         List<User> input = Arrays.asList(
                 serj, ivan, sergej, fedor
         );
-        List<User> expect = Arrays.asList(fedor, ivan, sergej, serj);
+        List<User> expect = List.of(fedor, ivan, sergej, serj);
         List<User> result = new SortUser().sortByAllFields(input);
         assertThat(result, is(expect));
     }

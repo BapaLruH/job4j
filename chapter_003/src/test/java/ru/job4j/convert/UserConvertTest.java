@@ -15,7 +15,7 @@ public class UserConvertTest {
     public void whenListContainsTwoUsersThenMapSize2() {
         User ivan = new User("Ivan");
         User fedor = new User("Fedor");
-        List<User> users = Arrays.asList(ivan, fedor);
+        List<User> users = List.of(ivan, fedor);
         UserConvert convert = new UserConvert();
         HashMap<Integer, String> result = convert.process(users);
         HashMap<Integer, String> expect = new HashMap<>();
