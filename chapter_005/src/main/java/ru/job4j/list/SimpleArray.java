@@ -48,6 +48,10 @@ public class SimpleArray<E> implements Iterable<E> {
         return (E) this.array[index];
     }
 
+    public int getPosition() {
+        return position;
+    }
+
     private void newCapacity() {
         int oldCapacity = this.array.length;
         int newCapacity = oldCapacity + (Math.max(oldCapacity, 2) >> 1);
@@ -72,7 +76,7 @@ public class SimpleArray<E> implements Iterable<E> {
 
         Itr(int modCount) {
             this.expectedModCount = modCount;
-            this.size = SimpleArray.this.array.length;
+            this.size = SimpleArray.this.position;
         }
 
         @Override
