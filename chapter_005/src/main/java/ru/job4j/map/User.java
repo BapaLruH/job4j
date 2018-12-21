@@ -28,7 +28,26 @@ public class User {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        User user = (User) o;
+        return children == user.children
+                && name.equals(user.name)
+                && birthday.equals(user.birthday);
+    }
+
+    @Override
     public int hashCode() {
-        return Objects.hash(name, children, birthday);
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + children;
+        result = prime * result + (name == null ? 0 : name.hashCode());
+        result = prime * result + (birthday == null ? 0 : birthday.hashCode());
+        return result;
     }
 }
