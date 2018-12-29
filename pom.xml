@@ -61,6 +61,12 @@
             <artifactId>javafx-controls</artifactId>
             <version>11</version>
         </dependency>
+
+		<dependency>
+			<groupId>net.jcip</groupId>
+			<artifactId>jcip-annotations</artifactId>
+			<version>1.0</version>
+		</dependency>
 	</dependencies>
 
 	<build>
