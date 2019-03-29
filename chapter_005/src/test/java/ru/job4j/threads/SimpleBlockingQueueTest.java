@@ -14,12 +14,12 @@ public class SimpleBlockingQueueTest {
     @Test
     public void whenFetchAllElementsThenGetIt() throws InterruptedException {
         SimpleBlockingQueue<Integer> simpleBlockingQueue = new SimpleBlockingQueue<>(100);
-        CopyOnWriteArrayList<Integer> resultList = new CopyOnWriteArrayList<>();
+        CopyOnWriteArrayList<Integer> buffer = new CopyOnWriteArrayList<>();
         Thread producer = new Thread(() -> IntStream.range(1, 4).forEach(simpleBlockingQueue::offer));
         Thread consumer = new Thread(() -> {
-            while (!Thread.currentThread().isInterrupted()) {
+            while (!simpleBlockingQueue.isEmpty() || !Thread.currentThread().isInterrupted()) {
                 try {
-                    resultList.add(simpleBlockingQueue.poll());
+                    buffer.add(simpleBlockingQueue.poll());
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                     Thread.currentThread().interrupt();
@@ -27,12 +27,11 @@ public class SimpleBlockingQueueTest {
             }
         });
         producer.start();
-        producer.join();
         consumer.start();
-        Thread.sleep(1000);
+        producer.join();
         consumer.interrupt();
         consumer.join();
-        assertThat(resultList, is(List.of(1, 2, 3)));
+        assertThat(buffer, is(List.of(1, 2, 3)));
     }
 
     @Test
