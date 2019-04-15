@@ -1,0 +1,48 @@
+//создание бд
+create database tracker_cars;
+
+//создание таблиц
+create table transmissions
+(
+  id   serial primary key,
+  name varchar(200)
+);
+
+create table engines
+(
+  id   serial primary key,
+  name varchar(200)
+);
+
+create table car_body
+(
+  id   serial primary key,
+  name varchar(200)
+);
+
+create table cars
+(
+  id              serial primary key,
+  name            varchar(200),
+  engine_id       int references engines (id),
+  transmission_id int references transmissions (id),
+  car_body_id     int references car_body (id)
+);
+
+//заполнение талиц
+insert into transmissions(name) values ('CVT'), ('DCT'), ('IVT');
+insert into engines(name) values ('карбюраторный'), ('инжекторный'), ('дизельный');
+insert into car_body(name) values ('седан'), ('универсал'), ('купе'), ('хэтчбек');
+
+insert into cars(name, engine_id, transmission_id, car_body_id) VALUES ('Toyota', 1, 1, 1), ('Audi', 2, 3, 4), ('Volvo', 3, 2, 2);
+
+//выборка всех строк из таблицы cars с привязанными деталями
+select cars.name, cb.name as car_body, e.name as engine, t.name as transmission from cars
+  left outer join car_body cb on cars.car_body_id = cb.id
+  left outer join engines e on cars.engine_id = e.id
+  left outer join transmissions t on cars.transmission_id = t.id;
+
+//выборка всех не привязанных деталей
+select t.name from transmissions t left join cars c on t.id = c.transmission_id where c.name is null;
+select e.name from engines e left join cars c on e.id = c.engine_id where c.name is null;
+select cb.name from car_body cb left join cars c on cb.id = c.car_body_id where c.name is null;
