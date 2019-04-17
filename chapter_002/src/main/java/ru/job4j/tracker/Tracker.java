@@ -13,9 +13,10 @@ import java.util.stream.Collectors;
  * @version 001
  * @since 21.11.2018
  */
-public class Tracker {
+public class Tracker implements ITracker {
     private final List<Item> items = new ArrayList<>();
     private static Random rm = new Random();
+    private final BiPredicate<String, String> isEquals = String::equals;
 
     /**
      * Method add.
@@ -48,7 +49,7 @@ public class Tracker {
      * @param item type Item.
      * @return changes type boolean.
      */
-    public boolean replace(String id, Item item, BiPredicate<String, String> isEquals) {
+    public boolean replace(String id, Item item) {
         Item itemForReplace = this.items.stream().filter(v -> isEquals.test(v.getId(), id)).findFirst().orElse(null);
         if (itemForReplace != null) {
             item.setId(id);
@@ -64,7 +65,7 @@ public class Tracker {
      * @param id type String.
      * @return changes type boolean.
      */
-    public boolean delete(String id, BiPredicate<String, String> isEquals) {
+    public boolean delete(String id) {
         Item remove = this.items.stream()
                 .filter(v -> isEquals.test(v.getId(), id))
                 .findFirst().orElse(null);
@@ -89,7 +90,7 @@ public class Tracker {
      * @param key type String.
      * @return items type List<Item>.
      */
-    public List<Item> findByName(String key, BiPredicate<String, String> isEquals) {
+    public List<Item> findByName(String key) {
         return this.items.stream()
                 .filter(v -> isEquals.test(v.getName(), key))
                 .collect(Collectors.toList());
@@ -102,7 +103,7 @@ public class Tracker {
      * @param id type String.
      * @return item type Item.
      */
-    public Item findById(String id, BiPredicate<String, String> isEquals) {
+    public Item findById(String id) {
         return this.items.stream()
                 .filter(v -> isEquals.test(v.getId(), id))
                 .findFirst()

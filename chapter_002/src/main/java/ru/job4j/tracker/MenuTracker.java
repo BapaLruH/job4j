@@ -13,10 +13,10 @@ import java.util.function.Consumer;
  */
 public class MenuTracker {
     private Input input;
-    private Tracker tracker;
+    private ITracker tracker;
     private List<UserAction> actions = new ArrayList<>();
 
-    public MenuTracker(Input input, Tracker tracker) {
+    public MenuTracker(Input input, ITracker tracker) {
         this.input = input;
         this.tracker = tracker;
     }
@@ -61,13 +61,13 @@ public class MenuTracker {
         }
 
         @Override
-        public void execute(Input input, Tracker tracker) {
+        public void execute(Input input, ITracker tracker) {
             System.out.println("------------ Изменение заявки --------------");
             String id = input.ask("Введите Id заявки :");
             String name = input.ask("Введите новое имя заявки :");
             String desc = input.ask("Введите новое описание заявки :");
             Item item = new Item(name, desc);
-            if (tracker.replace(id, item, String::equals)) {
+            if (tracker.replace(id, item)) {
                 System.out.println("------------ Заявка с Id : " + id + " изменена -----------");
             } else {
                 System.out.println("------------ Заявка с Id : " + id + " отсутствует ------------");
@@ -85,10 +85,10 @@ public class MenuTracker {
         }
 
         @Override
-        public void execute(Input input, Tracker tracker) {
+        public void execute(Input input, ITracker tracker) {
             System.out.println("------------ Удаление заявки --------------");
             String id = input.ask("Введите Id заявки :");
-            if (tracker.delete(id, String::equals)) {
+            if (tracker.delete(id)) {
                 System.out.println("------------ Заявка с Id : " + id + " удалена -----------");
             } else {
                 System.out.println("------------ Заявка с Id : " + id + " отсутствует ------------");
@@ -108,7 +108,7 @@ class AddItem extends BaseAction {
     }
 
     @Override
-    public void execute(Input input, Tracker tracker) {
+    public void execute(Input input, ITracker tracker) {
         System.out.println("------------ Добавление новой заявки --------------");
         String name = input.ask("Введите имя заявки :");
         String desc = input.ask("Введите описание заявки :");
@@ -128,7 +128,7 @@ class ShowItems extends BaseAction {
     }
 
     @Override
-    public void execute(Input input, Tracker tracker) {
+    public void execute(Input input, ITracker tracker) {
         List<Item> items = tracker.findAll();
         if (items.size() == 0) {
             System.out.println("------------ Данные отсутствуют ------------");
@@ -150,10 +150,10 @@ class FindItemById extends BaseAction {
     }
 
     @Override
-    public void execute(Input input, Tracker tracker) {
+    public void execute(Input input, ITracker tracker) {
         System.out.println("------------ Поиск заявки по Id --------------");
         String id = input.ask("Введите Id заявки :");
-        Item result = tracker.findById(id, String::equals);
+        Item result = tracker.findById(id);
         if (result != null) {
             System.out.println(result);
         } else {
@@ -172,10 +172,10 @@ class FindItemsByName extends BaseAction {
     }
 
     @Override
-    public void execute(Input input, Tracker tracker) {
+    public void execute(Input input, ITracker tracker) {
         System.out.println("------------ Поиск заявки по имени --------------");
         String name = input.ask("Введите имя заявки :");
-        List<Item> result = tracker.findByName(name, String::equals);
+        List<Item> result = tracker.findByName(name);
         if (result.size() == 0) {
             System.out.println("------------ Заявки с именем : " + name + " отсутствуют ------------");
         } else {

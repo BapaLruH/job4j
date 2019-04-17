@@ -25,8 +25,8 @@ public class TrackerTest {
         Item previous = new Item("First test name", "first description", 123L);
         tracker.add(previous);
         Item next = new Item("Second test name", "second description", 1234L);
-        tracker.replace(previous.getId(), next, String::equals);
-        assertThat(tracker.findById(previous.getId(), String::equals).getName(), is("Second test name"));
+        tracker.replace(previous.getId(), next);
+        assertThat(tracker.findById(previous.getId()).getName(), is("Second test name"));
     }
 
     @Test
@@ -38,12 +38,12 @@ public class TrackerTest {
         tracker.add(item);
         tracker.add(item1);
         tracker.add(item2);
-        tracker.delete(item.getId(), String::equals);
-        assertNull(tracker.findById(item.getId(), String::equals));
+        tracker.delete(item.getId());
+        assertNull(tracker.findById(item.getId()));
     }
 
     @Test
-    public void whenTrackerContainsItemWhithNameThenInputItem() {
+    public void whenTrackerContainsItemWithNameThenInputItem() {
         Tracker tracker = new Tracker();
         Item item = new Item("First test name", "first description", 123L);
         Item item1 = new Item("First test name", "first description", 123L);
@@ -52,7 +52,7 @@ public class TrackerTest {
         tracker.add(item);
         tracker.add(item1);
         tracker.add(item2);
-        assertThat(tracker.findByName("First test name", String::equals), is(expect));
+        assertThat(tracker.findByName("First test name"), is(expect));
     }
 
     @Test
@@ -69,7 +69,7 @@ public class TrackerTest {
         Item item = tracker.add(new Item("Test name", "description"));
         Input input = new StubInput(new String[]{"2", item.getId(), "new name", "updated", "y"});
         new StartUI(input, tracker).init();
-        assertThat(tracker.findById(item.getId(), String::equals).getName(), is("new name"));
+        assertThat(tracker.findById(item.getId()).getName(), is("new name"));
     }
 
     @Test
@@ -78,7 +78,7 @@ public class TrackerTest {
         Item item = tracker.add(new Item("Test name", "description"));
         Input input = new StubInput(new String[]{"3", item.getId(), "y"});
         new StartUI(input, tracker).init();
-        assertNull(tracker.findById(item.getId(), String::equals));
+        assertNull(tracker.findById(item.getId()));
     }
 
     @Test
@@ -87,7 +87,7 @@ public class TrackerTest {
         Item item = tracker.add(new Item("Test name", "description"));
         Input input = new StubInput(new String[]{"4", item.getId(), "y"});
         new StartUI(input, tracker).init();
-        assertThat(tracker.findById(item.getId(), String::equals).getName(), is("Test name"));
+        assertThat(tracker.findById(item.getId()).getName(), is("Test name"));
     }
 
     @Test
@@ -97,6 +97,6 @@ public class TrackerTest {
         Item second = tracker.add(new Item("Test name", "description_1"));
         Input input = new StubInput(new String[]{"5", "Test name", "y"});
         new StartUI(input, tracker).init();
-        assertThat(tracker.findByName("Test name", String::equals), is(Arrays.asList(first, second)));
+        assertThat(tracker.findByName("Test name"), is(Arrays.asList(first, second)));
     }
 }
