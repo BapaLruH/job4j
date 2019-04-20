@@ -28,3 +28,8 @@ target
 # idea files and directory
 *.iml
 .idea
+
+# other files
+*.db
+dest.xml
+source.xml
