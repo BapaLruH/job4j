@@ -1,0 +1,65 @@
+CREATE TABLE role
+(
+  ID   serial PRIMARY KEY,
+  NAME VARCHAR(50)
+);
+
+CREATE TABLE users
+(
+  ID      serial PRIMARY KEY,
+  NAME    VARCHAR(50) NOT NULL,
+  ID_ROLE INT         NOT NULL REFERENCES ROLE (ID)
+);
+
+CREATE TABLE rules
+(
+  ID   serial PRIMARY KEY,
+  NAME VARCHAR(50) NOT NULL
+);
+
+CREATE TABLE role_rules
+(
+  ID       serial PRIMARY KEY,
+  ID_ROLE  INT REFERENCES role (ID),
+  ID_RULES INT REFERENCES rules (ID)
+);
+
+
+CREATE TABLE category
+(
+  ID   serial PRIMARY KEY,
+  Name VARCHAR(200) NOT NULL
+);
+
+CREATE TABLE state
+(
+  ID   serial PRIMARY KEY,
+  Name VARCHAR(200) NOT NULL
+);
+
+
+
+CREATE TABLE item
+(
+  ID          serial PRIMARY KEY,
+  ID_AUTHOR   INT REFERENCES users (id),
+  TITLE       VARCHAR(2000) NOT NULL,
+  DESCRIPTION TEXT,
+  ID_STATE    INT REFERENCES state (id),
+  ID_CATEGORY INT REFERENCES category (id)
+);
+
+CREATE TABLE comments
+(
+  ID          serial PRIMARY KEY,
+  ID_USER     INT REFERENCES users (ID),
+  ID_ITEM     int REFERENCES item (id),
+  DESCRIPTION TEXT
+);
+
+CREATE TABLE attachs
+(
+  ID      serial PRIMARY KEY,
+  Name    VARCHAR(200) NOT NULL,
+  ID_ITEM INT REFERENCES item (ID)
+);
