@@ -4,6 +4,7 @@ import ru.job4j.model.MemoryStore;
 import ru.job4j.model.Store;
 import ru.job4j.model.User;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -88,13 +89,11 @@ public class ValidateService implements Service {
      * @return result of operation
      */
     @Override
-    public String findAll() {
-        String result;
-        List users = store.findAll();
-        if (users.isEmpty()) {
-            result = "No users in the storage";
-        } else {
-            result = users.toString();
+    public List<User> findAll() {
+        List<User> result = new ArrayList<>();
+        List<User> users = store.findAll();
+        if (!users.isEmpty()) {
+            result = users;
         }
         return result;
     }

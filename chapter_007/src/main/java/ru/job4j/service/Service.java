@@ -1,6 +1,9 @@
 package ru.job4j.service;
 
 import ru.job4j.model.User;
+
+import java.util.List;
+
 /**
  * Interface Service.
  *
@@ -15,7 +18,7 @@ public interface Service {
 
     String delete(int id);
 
-    String findAll();
+    List findAll();
 
     String findById(int id);
 }
