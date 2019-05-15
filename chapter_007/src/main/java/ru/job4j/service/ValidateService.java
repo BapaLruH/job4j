@@ -1,6 +1,6 @@
 package ru.job4j.service;
 
-import ru.job4j.model.MemoryStore;
+import ru.job4j.model.DbStore;
 import ru.job4j.model.Store;
 import ru.job4j.model.User;
 
@@ -16,7 +16,7 @@ import java.util.List;
  */
 public class ValidateService implements Service {
     private static final ValidateService INSTANCE = new ValidateService();
-    private final Store store = MemoryStore.getInstance();
+    private final Store store = DbStore.getInstance();
 
     /**
      * Returns an instance of this object.
