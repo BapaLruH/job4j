@@ -30,5 +30,17 @@
             <artifactId>postgresql</artifactId>
             <version>42.2.5</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/javax.servlet.jsp.jstl/jstl-api -->
+        <dependency>
+            <groupId>javax.servlet.jsp.jstl</groupId>
+            <artifactId>jstl-api</artifactId>
+            <version>1.2</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/taglibs/standard -->
+        <dependency>
+            <groupId>taglibs</groupId>
+            <artifactId>standard</artifactId>
+            <version>1.1.2</version>
+        </dependency>
     </dependencies>
 </project>

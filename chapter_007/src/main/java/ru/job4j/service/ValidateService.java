@@ -105,14 +105,7 @@ public class ValidateService implements Service {
      * @return result of operation
      */
     @Override
-    public String findById(int id) {
-        String result;
-        User user = store.findById(id);
-        if (user == null) {
-            result = "No user in the storage";
-        } else {
-            result = user.toString();
-        }
-        return result;
+    public User findById(int id) {
+        return store.findById(id);
     }
 }

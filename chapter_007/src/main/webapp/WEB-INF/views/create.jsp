@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <html>
     <head>
         <title>Create user page</title>
@@ -6,11 +7,11 @@
     <body>
         <div>
             <form>
-                <button formaction="<%=request.getContextPath()%>/" formmethod="get">back</button>
+                <button formaction="${pageContext.servletContext.contextPath}/" formmethod="get">back</button>
             </form>
         </div>
         <div>
-            <form action="<%=request.getContextPath()%>/users" method="post">
+            <form action="${pageContext.servletContext.contextPath}/" method="post">
                 <input type="hidden" name="action" value="add">
                 <input type="text" placeholder="name" name="name">
                 <input type="text" placeholder="login" name="login">

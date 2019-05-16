@@ -20,5 +20,5 @@ public interface Service {
 
     List findAll();
 
-    String findById(int id);
+    User findById(int id);
 }

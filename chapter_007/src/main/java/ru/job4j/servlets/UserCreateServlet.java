@@ -17,6 +17,6 @@ public class UserCreateServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("text/html");
-        resp.sendRedirect(String.format("%s/create.jsp", req.getContextPath()));
+        req.getRequestDispatcher("/WEB-INF/views/create.jsp").forward(req, resp);
     }
 }

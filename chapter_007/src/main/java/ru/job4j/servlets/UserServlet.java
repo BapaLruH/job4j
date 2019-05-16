@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.function.Function;
 
 /**
@@ -32,7 +33,15 @@ public class UserServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("text/html");
-        resp.sendRedirect(String.format("%s/index.jsp", req.getContextPath()));
+        if (req.getParameter("id") == null) {
+            req.setAttribute("users", service.findAll());
+        } else {
+            User user = service.findById(Integer.parseInt(req.getParameter("id")));
+            if (user != null) {
+                req.setAttribute("users", List.of(user));
+            }
+        }
+        req.getRequestDispatcher("/WEB-INF/views/index.jsp").forward(req, resp);
     }
 
     @Override
@@ -43,7 +52,8 @@ public class UserServlet extends HttpServlet {
         });
         String result = function.apply(req);
         req.setAttribute("result", result);
-        getServletContext().getRequestDispatcher("/index.jsp").forward(req, resp);
+        req.setAttribute("users", service.findAll());
+        req.getRequestDispatcher("/WEB-INF/views/index.jsp").forward(req, resp);
     }
 
     private String add(HttpServletRequest req) {

@@ -29,7 +29,7 @@
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>UserServlet</servlet-name>
-        <url-pattern>/list</url-pattern>
+        <url-pattern>/</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>UserCreateServlet</servlet-name>
@@ -37,6 +37,6 @@
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>UserUpdateServlet</servlet-name>
-        <url-pattern>/edit</url-pattern>
+        <url-pattern>/update</url-pattern>
     </servlet-mapping>
 </web-app>

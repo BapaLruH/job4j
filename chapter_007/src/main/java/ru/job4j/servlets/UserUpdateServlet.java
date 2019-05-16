@@ -17,6 +17,6 @@ public class UserUpdateServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("text/html");
-        resp.sendRedirect(String.format("%s/update.jsp", req.getContextPath()));
+        req.getRequestDispatcher("/WEB-INF/views/update.jsp").forward(req, resp);
     }
 }
