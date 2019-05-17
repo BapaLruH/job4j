@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
 
 /**
  * Сlass MemoryStore.
@@ -66,6 +67,17 @@ public class MemoryStore implements Store {
     }
 
     /**
+     * AddRoleStub
+     *
+     * @param role type Role
+     * @return false
+     */
+    @Override
+    public boolean addRole(Role role) {
+        return false;
+    }
+
+    /**
      * Updates the user from the storage with the specified id.
      *
      * @param id   type int
@@ -83,6 +95,17 @@ public class MemoryStore implements Store {
     }
 
     /**
+     * UpdateRoleStub
+     *
+     * @param role type Role
+     * @return false
+     */
+    @Override
+    public boolean updateRole(int id, Role role) {
+        return false;
+    }
+
+    /**
      * Deletes the user from the storage with the specified id.
      *
      * @param id type int
@@ -91,6 +114,17 @@ public class MemoryStore implements Store {
     @Override
     public boolean delete(int id) {
         return Objects.nonNull(users.remove(id));
+    }
+
+    /**
+     * DeleteRoleStub
+     *
+     * @param id type id
+     * @return false
+     */
+    @Override
+    public boolean deleteRole(int id) {
+        return false;
     }
 
     /**
@@ -112,5 +146,61 @@ public class MemoryStore implements Store {
     @Override
     public User findById(int id) {
         return users.get(id);
+    }
+
+    /**
+     * Returns the record from the storage with the specified email
+     *
+     * @param email type String
+     * @return {@code User} if a user has been found or {@code null}
+     */
+    @Override
+    public List<User> findUserByEmail(String email) {
+        return users.values().stream()
+                .filter(u -> u.getEmail().equals(email))
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * Returns the record from the storage with the specified login
+     *
+     * @param login type String
+     * @return {@code User} if a user has been found or {@code null}
+     */
+    @Override
+    public List<User> findUserByLogin(String login) {
+        return users.values().stream()
+                .filter(u -> u.getLogin().equals(login))
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * FindAllRolesStub
+     *
+     * @return empty list
+     */
+    @Override
+    public List<Role> findAllRoles() {
+        return List.of();
+    }
+
+    /**
+     * FindRoleByNameStub
+     *
+     * @return {@code null}
+     */
+    @Override
+    public Role findRoleByName(String name) {
+        return null;
+    }
+
+    /**
+     * FindRoleByIdStub
+     *
+     * @return {@code null}
+     */
+    @Override
+    public Role findRoleById(int id) {
+        return null;
     }
 }

@@ -1,6 +1,8 @@
 package ru.job4j.model;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.StringJoiner;
 
@@ -17,16 +19,24 @@ public class User {
     private String login;
     private String email;
     private LocalDate createDate;
+    private String password;
+    private List<Role> roles;
 
-    public User(String name, String login, String email) {
+    public User() {
+        this.createDate = LocalDate.now();
+        roles = new ArrayList<>();
+    }
+
+    public User(String name, String login, String email, String password) {
+        this();
         this.name = name;
         this.login = login;
         this.email = email;
-        this.createDate = LocalDate.now();
+        this.password = password;
     }
 
-    public User(int id, String name, String login, String email) {
-        this(name, login, email);
+    public User(int id, String name, String login, String email, String password) {
+        this(name, login, email, password);
         this.id = id;
     }
 
@@ -66,6 +76,27 @@ public class User {
         return createDate;
     }
 
+    public List<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<Role> roles) {
+        this.roles = roles;
+    }
+
+    public void addRole(Role role) {
+        assert role != null;
+        this.roles.add(role);
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -79,12 +110,13 @@ public class User {
                 && name.equals(user.name)
                 && login.equals(user.login)
                 && email.equals(user.email)
-                && createDate.equals(user.createDate);
+                && createDate.equals(user.createDate)
+                && roles.equals(user.roles);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, login, email, createDate);
+        return Objects.hash(id, name, login, email, createDate, roles);
     }
 
     @Override
@@ -95,6 +127,7 @@ public class User {
                 .add("login='" + login + "'")
                 .add("email='" + email + "'")
                 .add("createDate=" + createDate)
+                .add("roles=" + roles)
                 .toString();
     }
 }
