@@ -26,7 +26,7 @@ public class ValidateService implements Service {
     /**
      * Returns an instance of this object.
      */
-    public static ValidateService getInstance() {
+    public static Service getInstance() {
         return INSTANCE;
     }
 

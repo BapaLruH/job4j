@@ -29,7 +29,7 @@ public interface Service {
 
     Map<String, String> deleteRole(int id);
 
-    List findAll();
+    List<User> findAll();
 
     User findById(int id);
 
