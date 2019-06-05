@@ -6,8 +6,30 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script>
+        function validate() {
+            var rsl = false;
+            var first_name = $("#first_name");
+            var last_name = $("#last_name");
+            var description = $("#description");
+            var sex = $('#male').prop("checked") || $('#female').prop('checked');
+            if (first_name.val() === '') {
+                alert(first_name.prop('placeholder'));
+            } else if (last_name.val() === '') {
+                alert(last_name.prop('placeholder'));
+            } else if (description.val() === '') {
+                alert(description.prop('placeholder'));
+            } else if (!sex) {
+                alert('select your gender ');
+            } else {
+                rsl = true;
+            }
+            return rsl;
+        }
+    </script>
+
 </head>
 <body>
 <div class="container-fluid">
@@ -24,15 +46,15 @@
         <textarea class="form-control" placeholder="enter description" id="description"></textarea>
         <div class="form-group form-check mt-2">
             <label class="form-check-label">
-                <input type="radio" class="form-check-input" name="sex" value="male">male
+                <input type="radio" class="form-check-input" name="sex" id="male" value="male">male
             </label>
         </div>
-        <div class="form-group form-check mb-2">
+        <div class="form-group form-check">
             <label class="form-check-label">
-                <input type="radio" class="form-check-input" name="sex" value="female">female
+                <input type="radio" class="form-check-input" name="sex" id="female" value="female">female
             </label>
         </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="submit" class="btn btn-primary" onclick="return validate();">Submit</button>
     </form>
 </div>
 <div class="container">
