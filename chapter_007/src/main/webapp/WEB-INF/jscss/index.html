@@ -28,6 +28,21 @@
             }
             return rsl;
         }
+
+        function addRow() {
+            var first_name = $("#first_name").val();
+            var last_name = $("#last_name").val();
+            var description = $("#description").val();
+            var gender = $('#male').prop("checked") ? 'male' : 'female';
+            $('#table > tbody:last-child').append('<tr>'
+                + '<td>' + first_name + '</td>'
+                + '<td>' + last_name + '</td>'
+                + '<td>' + description + '</td>'
+                + '<td>' + gender + '</td>'
+                + '</tr>'
+            );
+            $('#user_form')[0].reset();
+        }
     </script>
 
 </head>
@@ -37,7 +52,7 @@
     <p>This is some text.</p>
 </div>
 <div class="container mb-5">
-    <form method="get" action="/" class="col item">
+    <form id="user_form" class="col item">
         <label class="mr-2" for="first_name">First name:</label>
         <input type="text" class="form-control" placeholder="enter first name" id="first_name">
         <label for="last_name">Last name:</label>
@@ -55,15 +70,17 @@
             </label>
         </div>
         <button type="submit" class="btn btn-primary" onclick="return validate();">Submit</button>
+        <button type="button" class="btn btn-outline-secondary" onclick="if (validate()) {addRow()}">Add row</button>
     </form>
 </div>
 <div class="container">
-    <table class="table table-striped" border="5">
+    <table class="table table-striped" id="table" border="5">
         <thead>
         <tr>
             <th>Firstname</th>
             <th>Lastname</th>
             <th>Description</th>
+            <th>Gender</th>
         </tr>
         </thead>
         <tbody>
@@ -71,16 +88,19 @@
             <td>John</td>
             <td>Doe</td>
             <td>john@example.com</td>
+            <td>male</td>
         </tr>
         <tr>
             <td>Mary</td>
             <td>Moe</td>
             <td>mary@example.com</td>
+            <td>female</td>
         </tr>
         <tr>
             <td>July</td>
             <td>Dooley</td>
             <td>july@example.com</td>
+            <td>female</td>
         </tr>
         </tbody>
     </table>
