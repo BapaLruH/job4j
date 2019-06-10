@@ -29,11 +29,7 @@
             return rsl;
         }
 
-        function addRow() {
-            var first_name = $("#first_name").val();
-            var last_name = $("#last_name").val();
-            var description = $("#description").val();
-            var gender = $('#male').prop("checked") ? 'male' : 'female';
+        function createRow(first_name, last_name, description, gender) {
             $('#table > tbody:last-child').append('<tr>'
                 + '<td>' + first_name + '</td>'
                 + '<td>' + last_name + '</td>'
@@ -41,7 +37,57 @@
                 + '<td>' + gender + '</td>'
                 + '</tr>'
             );
+        }
+
+        function addRow() {
+            var first_name = $("#first_name").val();
+            var last_name = $("#last_name").val();
+            var description = $("#description").val();
+            var gender = $('#male').prop("checked") ? 'male' : 'female';
+            createRow(first_name, last_name, description, gender);
             $('#user_form')[0].reset();
+        }
+
+        $(getPersons());
+
+        function sendPerson() {
+            if (validate()) {
+                var person = {
+                    "FirstName": $("#first_name").val(),
+                    "LastName": $("#last_name").val(),
+                    "Description": $("#description").val(),
+                    "Gender": $("input[name=sex]:checked").val()
+                };
+                $.ajax({
+                    type: "POST",
+                    url: "././persons",
+                    data: JSON.stringify(person),
+                    contentType: "application/json",
+                    success: addRow()
+                });
+            }
+        }
+
+        function removeRows() {
+            var table = document.getElementById("table");
+            for (i = table.tBodies[0].rows.length - 1; i >= 0; i--) {
+                table.tBodies[0].deleteRow(i)
+            }
+        }
+
+        function getPersons() {
+            $.ajax({
+                type: "GET",
+                url: "././persons",
+                success: function(data, textStatus, request){
+                    removeRows();
+                    var list = JSON.parse(request.getResponseHeader('persons'));
+                    for (i = list.length - 1; i >= 0; i--) {
+                        console.log(list[i]);
+                        createRow(list[i].FirstName, list[i].LastName, list[i].Description, list[i].Gender);
+                    }
+                }
+            });
         }
     </script>
 
@@ -70,7 +116,9 @@
             </label>
         </div>
         <button type="submit" class="btn btn-primary" onclick="return validate();">Submit</button>
-        <button type="button" class="btn btn-outline-secondary" onclick="if (validate()) {addRow()}">Add row</button>
+        <button type="button" class="btn btn-outline-secondary" onclick="sendPerson()">Add person</button>
+        <button type="button" class="btn btn-outline-secondary" onclick="removeRows()">Remove rows</button>
+        <button type="button" class="btn btn-outline-secondary" onclick="getPersons()">Get persons</button>
     </form>
 </div>
 <div class="container">

@@ -20,6 +20,7 @@
                 <button formaction="${pageContext.servletContext.contextPath}/" formmethod="get" value="">all users</button>
             </c:if>
             <button formaction="${pageContext.servletContext.contextPath}/signIn" formmethod="get" name="logout" value="true">logout</button>
+            <button formaction="${pageContext.servletContext.contextPath}/persons" formmethod="get">persons</button>
         </form>
     </div>
     <div>

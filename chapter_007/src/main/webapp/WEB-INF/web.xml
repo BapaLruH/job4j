@@ -27,6 +27,10 @@
         <servlet-name>RoleServlet</servlet-name>
         <servlet-class>ru.job4j.servlets.RoleServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>PersonServlet</servlet-name>
+        <servlet-class>ru.job4j.servlets.PersonServlet</servlet-class>
+    </servlet>
     <filter>
         <filter-name>AuthFilter</filter-name>
         <filter-class>ru.job4j.servlets.AuthFilter</filter-class>
@@ -52,7 +56,7 @@
     <servlet-mapping>
         <servlet-name>UserServlet</servlet-name>
         <url-pattern>/users</url-pattern>
-        <url-pattern>/</url-pattern>
+<!--        <url-pattern>/</url-pattern>-->
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>UserCreateServlet</servlet-name>
@@ -69,5 +73,9 @@
     <servlet-mapping>
         <servlet-name>RoleServlet</servlet-name>
         <url-pattern>/roles</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>PersonServlet</servlet-name>
+        <url-pattern>/persons</url-pattern>
     </servlet-mapping>
 </web-app>

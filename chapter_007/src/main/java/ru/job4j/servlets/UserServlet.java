@@ -84,7 +84,7 @@ public class UserServlet extends HttpServlet implements ServletUtils {
                     resp.sendRedirect(String.format("%s/signIn?login=%s", req.getContextPath(), req.getParameter("login")));
                     return;
                 }
-                resp.sendRedirect(String.format("%s/", req.getContextPath()));
+                resp.sendRedirect(String.format("%s/users", req.getContextPath()));
             }
         }
     }

@@ -43,7 +43,7 @@ public class SignInServlet extends HttpServlet {
             session.setAttribute("id", currentUser.getId());
             session.setAttribute("isAdmin", service.isRoleAvailable(currentUser, adminRole));
             session.setAttribute("access", String.format("Welcome, %s", currentUser.getName()));
-            resp.sendRedirect(String.format("%s/", req.getContextPath()));
+            resp.sendRedirect(String.format("%s/users", req.getContextPath()));
         } else {
             req.setAttribute("access", "access denied");
             doGet(req, resp);
