@@ -22,7 +22,7 @@ public class LoadController implements Job {
 
     public LoadController() {
     }
-//todo for tests
+
     public void execute(Config config) {
         this.model = new DBModel(config);
         this.model.downloadJobs();

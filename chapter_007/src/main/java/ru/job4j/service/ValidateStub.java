@@ -1,5 +1,7 @@
 package ru.job4j.service;
 
+import ru.job4j.model.City;
+import ru.job4j.model.Country;
 import ru.job4j.model.Role;
 import ru.job4j.model.User;
 
@@ -12,7 +14,9 @@ import java.util.function.Function;
 public class ValidateStub implements Service {
     private final Map<Integer, User> userStore = new HashMap<>();
     private final Map<Integer, Role> roleStore = new HashMap<>();
+    private final Map<Integer, City> cityStore = new HashMap<>();
     private int userIds = 0;
+    private int cityIds = 0;
     private int roleIds = 0;
 
     @Override
@@ -46,6 +50,21 @@ public class ValidateStub implements Service {
     }
 
     @Override
+    public Map<String, String> addCountryCity(City city) {
+        Map<String, String> rsl = new HashMap<>();
+        city.setId(this.roleIds++);
+        this.cityStore.put(city.getId(), city);
+        if (this.cityStore.containsValue(city)) {
+            rsl.put("Result", "Country or City added");
+            rsl.put("Complete", "true");
+        } else {
+            rsl.put("Result", "City is not added");
+            rsl.put("Complete", "false");
+        }
+        return rsl;
+    }
+
+    @Override
     public Map<String, String> update(User user) {
         Map<String, String> rsl = new HashMap<>();
         this.userStore.put(user.getId(), user);
@@ -64,6 +83,20 @@ public class ValidateStub implements Service {
         Map<String, String> rsl = new HashMap<>();
         this.roleStore.put(role.getId(), role);
         if (this.roleStore.containsValue(role)) {
+            rsl.put("Result", "Country or City updated");
+            rsl.put("Complete", "true");
+        } else {
+            rsl.put("Result", "Country or City is not updated");
+            rsl.put("Complete", "false");
+        }
+        return rsl;
+    }
+
+    @Override
+    public Map<String, String> updateCountryCity(int id, City city) {
+        Map<String, String> rsl = new HashMap<>();
+        this.cityStore.put(city.getId(), city);
+        if (this.cityStore.containsValue(city)) {
             rsl.put("Result", "Role updated");
             rsl.put("Complete", "true");
         } else {
@@ -104,6 +137,25 @@ public class ValidateStub implements Service {
             rsl.put("Complete", "false");
         }
         return rsl;
+    }
+
+    @Override
+    public Map<String, String> deleteCity(int id) {
+        Map<String, String> rsl = new HashMap<>();
+        City city = this.cityStore.remove(id);
+        if (city != null) {
+            rsl.put("Result", "City deleted");
+            rsl.put("Complete", "true");
+        } else {
+            rsl.put("Result", "City is not deleted");
+            rsl.put("Complete", "false");
+        }
+        return rsl;
+    }
+
+    @Override
+    public Map<String, String> deleteCountry(int id) {
+        return null;
     }
 
     @Override
@@ -154,5 +206,25 @@ public class ValidateStub implements Service {
     @Override
     public Role findRoleById(int id) {
         return this.roleStore.get(id);
+    }
+
+    @Override
+    public List<City> findAllCities() {
+        return new ArrayList<>(this.cityStore.values());
+    }
+
+    @Override
+    public City findCityById(int id) {
+        return null;
+    }
+
+    @Override
+    public List<City> findCitiesByCountryId(int id) {
+        return null;
+    }
+
+    @Override
+    public List<Country> findAllCountries() {
+        return null;
     }
 }

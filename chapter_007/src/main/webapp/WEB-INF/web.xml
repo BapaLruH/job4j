@@ -31,6 +31,10 @@
         <servlet-name>PersonServlet</servlet-name>
         <servlet-class>ru.job4j.servlets.PersonServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>PlacesServlet</servlet-name>
+        <servlet-class>ru.job4j.servlets.CityCountryServlet</servlet-class>
+    </servlet>
     <filter>
         <filter-name>AuthFilter</filter-name>
         <filter-class>ru.job4j.servlets.AuthFilter</filter-class>
@@ -56,7 +60,6 @@
     <servlet-mapping>
         <servlet-name>UserServlet</servlet-name>
         <url-pattern>/users</url-pattern>
-<!--        <url-pattern>/</url-pattern>-->
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>UserCreateServlet</servlet-name>
@@ -77,5 +80,9 @@
     <servlet-mapping>
         <servlet-name>PersonServlet</servlet-name>
         <url-pattern>/persons</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>PlacesServlet</servlet-name>
+        <url-pattern>/places</url-pattern>
     </servlet-mapping>
 </web-app>

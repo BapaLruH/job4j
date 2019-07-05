@@ -1,5 +1,6 @@
 package ru.job4j.servlets;
 
+import ru.job4j.model.City;
 import ru.job4j.model.Role;
 import ru.job4j.service.Service;
 import ru.job4j.service.ValidateService;
@@ -25,6 +26,10 @@ public class UserCreateServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("text/html");
         List<Role> roles = service.findAllRoles();
+        List<City> cities = service.findAllCities();
+        if (!cities.isEmpty()) {
+            req.setAttribute("cities", cities);
+        }
         if (!roles.isEmpty()) {
             req.setAttribute("roles", roles);
         }

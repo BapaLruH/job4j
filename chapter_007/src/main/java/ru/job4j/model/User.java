@@ -20,6 +20,7 @@ public class User {
     private String email;
     private LocalDate createDate;
     private String password;
+    private City city;
     private List<Role> roles;
 
     public User() {
@@ -27,16 +28,17 @@ public class User {
         roles = new ArrayList<>();
     }
 
-    public User(String name, String login, String email, String password) {
+    public User(String name, String login, String email, String password, City city) {
         this();
         this.name = name;
         this.login = login;
         this.email = email;
         this.password = password;
+        this.city = city;
     }
 
-    public User(int id, String name, String login, String email, String password) {
-        this(name, login, email, password);
+    public User(int id, String name, String login, String email, String password, City city) {
+        this(name, login, email, password, city);
         this.id = id;
     }
 
@@ -97,6 +99,14 @@ public class User {
         this.password = password;
     }
 
+    public City getCity() {
+        return city;
+    }
+
+    public void setCity(City city) {
+        this.city = city;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -107,16 +117,18 @@ public class User {
         }
         User user = (User) o;
         return id == user.id
-                && name.equals(user.name)
-                && login.equals(user.login)
-                && email.equals(user.email)
-                && createDate.equals(user.createDate)
-                && roles.equals(user.roles);
+                && Objects.equals(name, user.name)
+                && Objects.equals(login, user.login)
+                && Objects.equals(email, user.email)
+                && Objects.equals(createDate, user.createDate)
+                && Objects.equals(password, user.password)
+                && Objects.equals(city, user.city)
+                && Objects.equals(roles, user.roles);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, login, email, createDate, roles);
+        return Objects.hash(id, name, login, email, createDate, password, city, roles);
     }
 
     @Override
@@ -127,6 +139,8 @@ public class User {
                 .add("login='" + login + "'")
                 .add("email='" + email + "'")
                 .add("createDate=" + createDate)
+                .add("password='" + password + "'")
+                .add("city=" + city)
                 .add("roles=" + roles)
                 .toString();
     }

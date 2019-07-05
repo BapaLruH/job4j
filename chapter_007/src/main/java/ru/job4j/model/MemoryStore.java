@@ -162,6 +162,46 @@ public class MemoryStore implements Store {
     }
 
     /**
+     * addCountryCityStub
+     *
+     * @return empty list
+     */
+    @Override
+    public boolean addCountryCity(City city) {
+        return false;
+    }
+
+    /**
+     * updateCountryCityStub
+     *
+     * @return empty list
+     */
+    @Override
+    public boolean updateCountryCity(int id, City city) {
+        return false;
+    }
+
+    /**
+     * deleteCountryCityStub
+     *
+     * @return empty list
+     */
+    @Override
+    public boolean deleteCity(int id) {
+        return false;
+    }
+
+    /**
+     * deleteCountryCountryStub
+     *
+     * @return empty list
+     */
+    @Override
+    public boolean deleteCountry(int id) {
+        return false;
+    }
+
+    /**
      * Returns the record from the storage with the specified login
      *
      * @param login type String
@@ -203,4 +243,66 @@ public class MemoryStore implements Store {
     public Role findRoleById(int id) {
         return null;
     }
+
+    /**
+     * findAllCitiesStub
+     *
+     * @return {@code null}
+     */
+    @Override
+    public List<City> findAllCities() {
+        return null;
+    }
+
+    /**
+     * findAllCountriesStub
+     *
+     * @return {@code null}
+     */
+    @Override
+    public List<Country> findAllCountries() {
+        return null;
+    }
+
+    /**
+     * findCitiesByNameStub
+     *
+     * @return {@code null}
+     */
+    @Override
+    public City findCityByName(String name) {
+        return null;
+    }
+
+    /**
+     * findCountriesByNameStub
+     *
+     * @return {@code null}
+     */
+    @Override
+    public Country findCountryByName(String name) {
+        return null;
+    }
+
+    /**
+     * findCityByIdStub
+     *
+     * @return {@code null}
+     */
+    @Override
+    public City findCityById(int id) {
+        return null;
+    }
+
+    /**
+     * findCitiesByCountryIdStub
+     *
+     * @return {@code null}
+     */
+    @Override
+    public List<City> findCitiesByCountryId(int id) {
+        return null;
+    }
+
+
 }

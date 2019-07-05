@@ -14,13 +14,21 @@ public interface Store {
 
     boolean addRole(Role role);
 
+    boolean addCountryCity(City city);
+
     boolean update(int id, User user);
 
     boolean updateRole(int id, Role role);
 
+    boolean updateCountryCity(int id, City city);
+
     boolean delete(int id);
 
     boolean deleteRole(int id);
+
+    boolean deleteCity(int id);
+
+    boolean deleteCountry(int id);
 
     List<User> findAll();
 
@@ -35,4 +43,16 @@ public interface Store {
     List<Role> findAllRoles();
 
     Role findRoleById(int id);
+
+    List<City> findAllCities();
+
+    List<Country> findAllCountries();
+
+    City findCityByName(String name);
+
+    Country findCountryByName(String name);
+
+    City findCityById(int id);
+
+    List<City> findCitiesByCountryId(int id);
 }

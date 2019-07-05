@@ -1,5 +1,6 @@
 package ru.job4j.servlets;
 
+import ru.job4j.model.City;
 import ru.job4j.model.Role;
 import ru.job4j.model.User;
 import ru.job4j.service.Service;
@@ -28,9 +29,11 @@ public class UserUpdateServlet extends HttpServlet {
         int userId = Integer.parseInt(req.getParameter("id"));
         User currentUser = service.findById(userId);
         List<Role> roles = service.findAllRoles();
-        if (currentUser != null && !roles.isEmpty()) {
+        List<City> cities = service.findAllCities();
+        if (currentUser != null && !roles.isEmpty() && !cities.isEmpty()) {
             req.setAttribute("user", currentUser);
             req.setAttribute("roles", roles);
+            req.setAttribute("cities", cities);
         }
         req.getRequestDispatcher("/WEB-INF/views/Update.jsp").forward(req, resp);
     }

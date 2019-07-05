@@ -1,9 +1,6 @@
 package ru.job4j.service;
 
-import ru.job4j.model.DbStore;
-import ru.job4j.model.Role;
-import ru.job4j.model.Store;
-import ru.job4j.model.User;
+import ru.job4j.model.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -99,6 +96,29 @@ public class ValidateService implements Service {
     }
 
     /**
+     * Adds a new city or country to the storage.
+     *
+     * @return result of operation
+     */
+    @Override
+    public Map<String, String> addCountryCity(City city) {
+        Map<String, String> rsl = new HashMap<>();
+        if (city.getName().isEmpty()) {
+            rsl.put("Result", "name is empty");
+            rsl.put("Complete", "false");
+        } else {
+            if (store.addCountryCity(city)) {
+                rsl.put("Result", "City or country added");
+                rsl.put("Complete", "true");
+            } else {
+                rsl.put("Result", "City or country is not added");
+                rsl.put("Complete", "false");
+            }
+        }
+        return rsl;
+    }
+
+    /**
      * Updates the user from the storage with the specified id.
      *
      * @param user type User
@@ -168,6 +188,30 @@ public class ValidateService implements Service {
     }
 
     /**
+     * Updates the city or country from the storage with the specified id.
+     *
+     * @param city type User
+     * @return result of operation
+     */
+    @Override
+    public Map<String, String> updateCountryCity(int id, City city) {
+        Map<String, String> rsl = new HashMap<>();
+        if (city.getName().isEmpty()) {
+            rsl.put("Result", "Name is empty");
+            rsl.put("Complete", "false");
+        } else {
+            if (store.updateCountryCity(id, city)) {
+                rsl.put("Result", "City updated");
+                rsl.put("Complete", "true");
+            } else {
+                rsl.put("Result", "City is not updated");
+                rsl.put("Complete", "false");
+            }
+        }
+        return rsl;
+    }
+
+    /**
      * Deletes the user or role from the storage with the specified id.
      *
      * @param id type int
@@ -206,6 +250,28 @@ public class ValidateService implements Service {
     @Override
     public Map<String, String> deleteRole(int id) {
         return delete(id, store::deleteRole);
+    }
+
+    /**
+     * Deletes the city from the storage with the specified id.
+     *
+     * @param id type int
+     * @return result of operation
+     */
+    @Override
+    public Map<String, String> deleteCity(int id) {
+        return delete(id, store::deleteCity);
+    }
+
+    /**
+     * Deletes the country from the storage with the specified id.
+     *
+     * @param id type int
+     * @return result of operation
+     */
+    @Override
+    public Map<String, String> deleteCountry(int id) {
+        return delete(id, store::deleteCountry);
     }
 
     /**
@@ -354,5 +420,30 @@ public class ValidateService implements Service {
     @Override
     public Role findRoleById(int id) {
         return store.findRoleById(id);
+    }
+
+    /**
+     * Returns all entries from the table "city".
+     *
+     * @return result of operation
+     */
+    @Override
+    public List<City> findAllCities() {
+        return store.findAllCities();
+    }
+
+    @Override
+    public City findCityById(int id) {
+        return store.findCityById(id);
+    }
+
+    @Override
+    public List<City> findCitiesByCountryId(int id) {
+        return store.findCitiesByCountryId(id);
+    }
+
+    @Override
+    public List<Country> findAllCountries() {
+        return store.findAllCountries();
     }
 }

@@ -1,5 +1,7 @@
 package ru.job4j.service;
 
+import ru.job4j.model.City;
+import ru.job4j.model.Country;
 import ru.job4j.model.Role;
 import ru.job4j.model.User;
 
@@ -19,15 +21,23 @@ public interface Service {
 
     Map<String, String> addRole(Role role);
 
+    Map<String, String> addCountryCity(City city);
+
     Map<String, String> update(User user);
 
     Map<String, String> updateRole(Role role);
+
+    Map<String, String> updateCountryCity(int id, City city);
 
     Map<String, String> delete(int id, Function<Integer, Boolean> function);
 
     Map<String, String> delete(int id);
 
     Map<String, String> deleteRole(int id);
+
+    Map<String, String> deleteCity(int id);
+
+    Map<String, String> deleteCountry(int id);
 
     List<User> findAll();
 
@@ -48,4 +58,12 @@ public interface Service {
     boolean isUniqueRoleName(String name, int id);
 
     Role findRoleById(int id);
+
+    List<City> findAllCities();
+
+    City findCityById(int id);
+
+    List<City> findCitiesByCountryId(int id);
+
+    List<Country> findAllCountries();
 }

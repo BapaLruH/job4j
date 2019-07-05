@@ -1,5 +1,6 @@
 package ru.job4j.servlets;
 
+import ru.job4j.model.City;
 import ru.job4j.model.Role;
 import ru.job4j.model.User;
 import ru.job4j.service.Service;
@@ -127,6 +128,9 @@ public class UserServlet extends HttpServlet implements ServletUtils {
                     break;
                 case "password":
                     user.setPassword(entry.getValue()[0]);
+                    break;
+                case "city_id":
+                    user.setCity(new City(Integer.parseInt(entry.getValue()[0])));
                     break;
                 default:
                     user.addRole(new Role(Integer.parseInt(entry.getKey()), entry.getValue()[0], false));
