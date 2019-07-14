@@ -22,6 +22,7 @@
 		<module>chapter_006</module>
 		<module>chapter_007</module>
 		<module>vacancy_parser</module>
+		<module>movie_theater</module>
 	</modules>
 
 	<profiles>

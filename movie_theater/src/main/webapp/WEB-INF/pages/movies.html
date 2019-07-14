@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script>
+        var $j = jQuery.noConflict();
+    </script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+            integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            crossorigin="anonymous"></script>
+    <script>
+        function fillMovies() {
+            $j.ajax({
+                type: 'GET',
+                url: './index',
+                success: function (data, textStatus, request) {
+                    var indicator = $('#moviesIndicator');
+                    var items = $('#moviesItem');
+                    var elemInd = '', elemItm = '';
+                    var movies = JSON.parse(request.getResponseHeader('movies'));
+                    for(i = 0; i < movies.length; i++) {
+                        if (i === 0) {
+                            elemInd += "<li data-target=\"#carousel\" data-slide-to=\"" + i + "\" class=\"active\"></li>\n";
+                            elemItm += "<div class=\"carousel-item active\">\n"
+                                + "    <img class=\"img-fluid\" src=\"" + movies[i].link  + "\" onclick=\"window.location = './index?movie_id="+ movies[i].id +"'\"\n"
+                                + "         alt=\"...\">\n"
+                                + "</div>\n";
+                        } else {
+                            elemInd += "<li data-target=\"#carousel\" data-slide-to=\"" + i + "\"></li>\n";
+                            elemItm += "<div class=\"carousel-item\">\n"
+                                + "    <img class=\"img-fluid\" src=\"" + movies[i].link  + "\" onclick=\"window.location = './index?movie_id="+ movies[i].id +"'\"\n"
+                                + "         alt=\"...\">\n"
+                                + "</div>\n";
+                        }
+                    }
+                    indicator.html(elemInd);
+                    items.html(elemItm);
+                }
+            })
+        }
+    </script>
+    <title>Movies</title>
+    <style>
+        body {
+            background-color: #FFF8DC;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="container text-center">
+        <h1 class="h3 mt-5 mb-1">Select a movie to book your seats</h1>
+
+        <div id="carousel" class="carousel slide carousel-fade d-inline-block" data-ride="carousel">
+            <!-- Индикаторы -->
+            <ol class="carousel-indicators" id="moviesIndicator">
+            </ol>
+            <div class="carousel-inner" id="moviesItem">
+            </div>
+            <!-- Элементы управления -->
+            <a class="carousel-control-prev" href="#carousel" role="button" data-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="sr-only">Предыдущий</span>
+            </a>
+            <a class="carousel-control-next" href="#carousel" role="button" data-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="sr-only">Следующий</span>
+            </a>
+        </div>
+
+    </div>
+</div>
+<script>
+    $(fillMovies());
+</script>
+</body>
+</html>

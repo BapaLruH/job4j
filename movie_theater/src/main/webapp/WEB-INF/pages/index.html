@@ -1,0 +1,285 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script>
+        var $j = jQuery.noConflict();
+    </script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+            integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            crossorigin="anonymous"></script>
+    <script src="./scripts/main.js"></script>
+    <script src="https://kit.fontawesome.com/dbb91414ec.js"></script>
+    <script>
+        function getAllCheckedCheckboxesIds() {
+            var sum = 0;
+            var txtAlert = '', valueAlert = '';
+            var textAlert = $('#textAlert');
+            var alertErr = $('#errorDiv');
+            $('input.checkbox:checkbox:checked').each(function () {
+                sum += parseInt($(this).val());
+                txtAlert += 'Row:' + $(this).prop('id').replace('_', ' Seat:') + ' ';
+                valueAlert += $(this).prop('id') + ' ';
+            });
+            textAlert.text('Selected seat(s): ' + txtAlert.trim() + ' sum: ' + sum);
+            textAlert.val(valueAlert.trim());
+            if (sum === 0) {
+                alertErr.addClass('show');
+                alertErr.removeClass('fade');
+            } else {
+                alertErr.removeClass('show');
+                alertErr.addClass('fade');
+            }
+            return sum > 0 && !checkSelectedSeats(textAlert.val());
+        }
+
+        function checkSelectedSeats(seats) {
+            var result = false;
+            $j.ajax({
+                type: 'GET',
+                url: './index',
+                data: {'movie_id' : getMovieId(), 'checkSeats' : seats},
+                async: false,
+                success : function (data, textStatus, request) {
+                    var occupiedSelectedSeats = JSON.parse(request.getResponseHeader('occupiedSelectedSeats'));
+                    var errorAlertText = '';
+                    if (occupiedSelectedSeats.length > 0) {
+                        for (i = 0; i < occupiedSelectedSeats.length; i++) {
+                            var currentLine = occupiedSelectedSeats[i];
+                            errorAlertText += 'row: ' + currentLine.row + ' seat: ' + currentLine.name + ' ';
+                            var checkboxId = '#' + currentLine.row + "_" + currentLine.name;
+                            $(checkboxId).prop({'checked': false, 'disabled': true});
+                            $(checkboxId).parent().addClass('btn-warning');
+                            $(checkboxId).parent().removeClass('btn-info');
+                        }
+                        var errorAlert = $('#errorAlert');
+                        errorAlert.text(errorAlertText + ' was taken earlier. Please select other seats.');
+                        errorAlert.parent().removeClass('fade');
+                        errorAlert.parent().addClass('show');
+                        result = true;
+                    }
+                }
+            });
+            return result;
+        }
+
+        function getMovieId() {
+            var strings = window.location.href.split('=');
+            var movie_id = 0;
+            if (strings.length > 1) {
+                movie_id = strings[1].replace('movie_id=', '');
+            }
+            return movie_id;
+        }
+
+        function fillAllSeats() {
+            var movie_id = getMovieId();
+            $j.ajax({
+                type: 'GET',
+                url: './index',
+                data: {'movie_id': movie_id},
+                success: function (data, textStatus, request) {
+                    var container = document.getElementById('placesContainer');
+                    var seatsList = JSON.parse(request.getResponseHeader('seats'));
+                    var seatsInRow = 0;
+                    var currentSeat = 0;
+                    var html = '';
+                    for (i = 0; i < seatsList.length; i++) {
+                        if (seatsList[i].id === 0) {
+                            html += "<div class=\"row align-items-center justify-content-between\">\n"
+                                + "     <div class=\"col-md-1\">\n"
+                                + "         <div class=\"row justify-content-center\">\n"
+                                + "             <h3 class=\"d-none d-md-block\">" + seatsList[i].name + "</h3>\n"
+                                + "             <h3 class=\"d-md-none\">" + seatsList[i].name + " ряд</h3>\n"
+                                + "         </div>\n"
+                                + "     </div>\n"
+                                + "     <div class=\"col-sm-12 col-md-5 text-center\">\n";
+                            seatsInRow = seatsList[i].row;
+                            currentSeat++;
+                        } else if (currentSeat === seatsInRow / 2) {
+                            html += addCurrentSeat(seatsList[i].row, seatsList[i].name, seatsList[i].price, seatsList[i].occupied)
+                                + "</div>\n"
+                                + "<div class=\"col-sm-12 col-md-5 text-center\">\n";
+                            currentSeat++;
+                        } else if (currentSeat === seatsInRow) {
+                            html += addCurrentSeat(seatsList[i].row, seatsList[i].name, seatsList[i].price, seatsList[i].occupied)
+                                + "</div>\n"
+                                + "     <div class=\"col-md-1 d-none d-md-block text-center\">\n"
+                                + "         <h3>" + seatsList[i].row + "</h3>\n"
+                                + "     </div>\n"
+                                + " </div>\n";
+                            seatsInRow = 0;
+                            currentSeat = 0;
+                        } else {
+                            html += addCurrentSeat(seatsList[i].row, seatsList[i].name, seatsList[i].price, seatsList[i].occupied);
+                            currentSeat++;
+                        }
+                    }
+                    container.innerHTML = html;
+                }
+            });
+        }
+
+        function addCurrentSeat(row, seat, price, occupied) {
+            var tags = '';
+            if (occupied) {
+                tags = "<label class=\"btn btn-warning m-1\">\n"
+                    + "    <input class=\"checkbox\" type=\"checkbox\" name=\"seat\" id=\"" + row + "_" + seat + "\" value=\"" + price + "\" disabled>" + seat + "\n"
+                    + "</label>\n";
+            } else {
+                tags = "<label class=\"btn btn-info m-1\">\n"
+                    + "    <input class=\"checkbox\" type=\"checkbox\" name=\"seat\" id=\"" + row + "_" + seat + "\" value=\"" + price + "\">" + seat + "\n"
+                    + "</label>\n";
+            }
+            return tags;
+        }
+
+        function getAllOccupiedPlaces() {
+            $j.ajax({
+                type: 'GET',
+                url: './index',
+                data: {'movie_id' : getMovieId(),'allOccupiedPlaces' : true},
+                success : function (data, textStatus, request) {
+                    var seatsList = JSON.parse(request.getResponseHeader('allOccupiedPlaces'));
+                    for (i = 0; i < seatsList.length; i++) {
+                        var currentLine = seatsList[i];
+                        var id = '#' + currentLine.row + '_' + currentLine.name;
+                        if ($(id).prop('checked') || !$(id).prop('disabled')) {
+                            $(id).prop({'checked' : false, 'disabled' : true});
+                            $(id).parent().addClass('btn-warning');
+                            $(id).parent().removeClass('btn-info');
+                        }
+                    }
+                }
+            })
+        }
+
+        function saveUserData() {
+            var ids = $('#textAlert').val();
+            var username = $('#username').val();
+            var phone = $('#phone').val();
+            $j.ajax({
+                type: 'POST',
+                url: './index',
+                contentType: 'application/json',
+                data: JSON.stringify({'ids' : ids, 'username' : username, 'phone' : phone, 'movie_id' : getMovieId()}),
+                success: function (data, textStatus, request) {
+                    getAllOccupiedPlaces();
+                    alert(JSON.parse(request.getResponseHeader('result')));
+                    window.location.href = './index'
+                }
+            })
+        }
+    </script>
+    <style>
+        body {
+            background-color: #FFF8DC;
+        }
+        .alert-message .alert-icon {
+            width: 3rem;
+        }
+        .alert-message {
+            font-size: 1rem;
+            color: #a6a6a6;
+        }
+        .alert-success .alert-icon {
+            background-color: #c3e6cb;
+        }
+    </style>
+    <title>Movie theater</title>
+</head>
+<body>
+<div class="container">
+    <div class="row justify-content-center pt-1 pb-1">
+        <div class="col-12">
+            <div class="alert fade alert-danger alert-message p-0" role="alert" id="errorDiv">
+                <div class="text-center py-2 px-3" id="errorAlert">
+                    Please select a seat in the hall
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row justify-content-center pt-3 pb-4">
+        <h2 class="">
+            Бронирование мест на сеанс
+        </h2>
+    </div>
+    <div class="row justify-content-center pt-3 pb-4">
+        <label class="btn btn-warning m-1">
+            <input class="checkbox" type="checkbox" name="seat" disabled> occupied
+        </label>
+        <label class="btn btn-info m-1">
+            <input class="checkbox" type="checkbox" name="seat" disabled> free
+        </label>
+    </div>
+    <div class="container justify-content-center" id="placesContainer">
+    </div>
+    <div class="row float-right">
+        <button type="button" class="btn btn-success" id="btn">Pay</button>
+
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+             aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">User info</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+
+                    <div class="alert alert-success alert-message d-flex rounded p-0" role="alert">
+                        <div class="alert-icon d-flex justify-content-center align-items-center flex-grow-0 flex-shrink-0 py-3">
+                            <i class="fas fa-check"></i>
+                        </div>
+                        <div class="d-flex align-items-center py-2 px-3" id="textAlert">
+
+                        </div>
+                    </div>
+
+                    <div class="modal-body">
+                        <form>
+                            <div class="form-group">
+                                <label for="username">FIO</label>
+                                <input type="text" class="form-control" id="username" placeholder="FIO">
+                            </div>
+                            <div class="form-group">
+                                <label for="phone">Phone number</label>
+                                <input type="text" class="form-control" id="phone" placeholder="Phone number">
+                            </div>
+                            <button type="button" class="btn btn-success" onclick="saveUserData()">Submit</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        $("#btn").click(function () {
+            if (getAllCheckedCheckboxesIds()) {
+                $("#exampleModal").modal('show');
+            }
+        });
+    });
+    $(fillAllSeats());
+    $(setInterval(function () {getAllOccupiedPlaces()}, 10000));
+</script>
+</body>
+</html>
